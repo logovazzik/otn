@@ -51,10 +51,10 @@
             var rateService = new RateService();
 
             rateService.getLiveCoinPrice().then(function(value){
-                $cryptoValue.html('$' + value);
+                    $liveValue.html(value ? '$' + value : '-');
             })
             rateService.getCRtopiaPrice().then(function(value){
-                $liveValue.html('$' + value);
+                    $cryptoValue.html(value ? '$' + value : '-');
             })
 
         };
