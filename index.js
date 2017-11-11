@@ -109,7 +109,7 @@ function MainView(){
 
 
         var _timer;
-        $(document.body).on('mousedown', function(){
+        $(document.body).on('touchstart', function(){
             alert(1)
             clearTimeout(_timer);
             _timer = setTimeout(function(){
@@ -119,7 +119,8 @@ function MainView(){
                     $cashValue.addClass('layout__cash_visible');
                 });
             }, 2000)
-        }).on('mouseup', function(){
+        }).on('touchend', function(){
+            alert(2)
             clearTimeout(_timer);
             $cashValue.removeClass('layout__cash_visible');
         });
