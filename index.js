@@ -110,6 +110,7 @@ function MainView(){
 
         var _timer;
         $(document.body).on('mousedown', function(){
+            alert(1)
             clearTimeout(_timer);
             _timer = setTimeout(function(){
                 rateService.getBitCoinCashPrice().then(function(value){
