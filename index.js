@@ -109,8 +109,7 @@ function MainView(){
 
 
         var _timer;
-        $(document.body).on('touchstart', function(){
-            $cashValue.html('touchstart');
+        $(document.body).on('touchstart mousedown', function(){
             clearTimeout(_timer);
             _timer = setTimeout(function(){
                 rateService.getBitCoinCashPrice().then(function(value){
@@ -119,8 +118,7 @@ function MainView(){
                     $cashValue.addClass('layout__cash_visible');
                 });
             }, 2000)
-        }).on('touchend', function(){
-            $cashValue.html('touchend');
+        }).on('touchend mouseup', function(){
             clearTimeout(_timer);
             $cashValue.removeClass('layout__cash_visible');
         });
