@@ -34,6 +34,7 @@
             background: linear-gradient(to right,#27326b 0,#472e74 50%,#472e74 100%);
             font-size:0;
             white-space: nowrap;
+            position:relative;
 
         }
         .layout:before{
@@ -63,10 +64,25 @@
         .rate__value  {
             font-weight: 700;
         }
+        .layout__cash {
+            position: absolute;
+            left:0;
+            top:0;
+            color: transparent;
+            font-weight: 700;
+            font-size:1.6rem;
+            transition: all 0.2s;
+        }
+        .layout__cash_visible {
+            color: white;
+        }
     </style>
 </head>
 <body>
 <div class="layout">
+    <div class="layout__cash">
+
+    </div>
     <div class="layout__content">
         <div class="rates">
 

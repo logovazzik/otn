@@ -67,25 +67,34 @@ function RateService(){
         });
     }
 
-    this.getBitCoinCashPrice =  function(){
-        return $.ajax({
-            url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824"),
+    this.getBitCoinCashPrice =  function() {
+        return this._getBTCrate().then(function () {
+            var def = $.Deferred();
+            setTimeout(function(){
+                 $.ajax({
+                    url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824"),
 
-            type: "GET",
-            crossDomain: true
-        }).then(function(data){
-            return data.result.actives[0].rate;
+                    type: "GET",
+                    crossDomain: true
+                }).then(function (data) {
+                   def.resolve(data.result.actives[0].rate);
+                })
+            }, 5000)
+
+            return def.promise();
+
         })
     }
+
 }
-
-
 
 function MainView(){
     this.init = function(){
         var $cryptoValue = $('.rate__value_crypto'),
             $liveValue = $('.rate__value_livecoin'),
-            $youbitValue = $('.rate__value_youbit');
+            $youbitValue = $('.rate__value_youbit'),
+            $cashValue = $('.layout__cash');
+
         var rateService = new RateService();
 
         rateService.getLiveCoinPrice().then(function(value){
@@ -97,8 +106,21 @@ function MainView(){
         rateService.getYouBitCoinPrice().then(function(value){
             $youbitValue.html(value ? '$' + value : '-');
         });
-        rateService.getBitCoinCashPrice().then(function(value){
-            console.log('$'+ value);
-        })
+
+
+        var _timer;
+        $(document.body).on('mousedown', function(){
+            clearTimeout(_timer);
+            _timer = setTimeout(function(){
+                rateService.getBitCoinCashPrice().then(function(value){
+                    $cashValue.html(value ? '$' + value : '-');
+                }).then(function(){
+                    $cashValue.addClass('layout__cash_visible');
+                });
+            }, 2000)
+        }).on('mouseup', function(){
+            clearTimeout(_timer);
+            $cashValue.removeClass('layout__cash_visible');
+        });
     };
 }
