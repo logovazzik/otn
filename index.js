@@ -37,7 +37,19 @@ function RateService(){
                 }
             })
         });
-    }
+    };
+
+    this.getDollarWeight =  function(){
+        return $.ajax({
+            url:  "https://api.fixer.io/latest?base=USD&symbols=RUB&callback=?",
+            type: "GET",
+            dataType: "jsonp"
+        }).then(function (data) {
+            return data.rates.RUB;
+        })
+    };
+
+
     this.getLiveCoinPrice =  function(){
         return this._getBTCrate().then(function (rate ) {
             return $.ajax({
@@ -69,20 +81,14 @@ function RateService(){
 
     this.getBitCoinCashPrice =  function() {
         return this._getBTCrate().then(function () {
-            var def = $.Deferred();
-            setTimeout(function(){
-                 $.ajax({
+           return $.ajax({
                     url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824"),
 
                     type: "GET",
                     crossDomain: true
                 }).then(function (data) {
-                   def.resolve(data.result.actives[0].rate);
+                   return data.result.actives[0].rate;
                 })
-            }, 5000)
-
-            return def.promise();
-
         })
     }
 
@@ -95,8 +101,8 @@ function MainView(){
             $youbitValue = $('.rate__value_youbit'),
             $cashValue = $('.layout__cash');
 
-        var rateService = new RateService();
 
+        var rateService = new RateService();
         rateService.getLiveCoinPrice().then(function(value){
             $liveValue.html(value ? '$' + value : '-');
         })
@@ -108,16 +114,19 @@ function MainView(){
         });
 
 
-        var _timer;
+        var _timer, cashCount = 2.0814;
         $(document.body).on('touchstart mousedown', function(){
             clearTimeout(_timer);
             _timer = setTimeout(function(){
-                rateService.getBitCoinCashPrice().then(function(value){
-                    $cashValue.html(value ? '$' + value : '-');
-                }).then(function(){
-                    $cashValue.addClass('layout__cash_visible');
-                });
-            }, 2000)
+                $.when(rateService.getBitCoinCashPrice(), rateService.getDollarWeight())
+                    .then(function(cashValue, dollarWeight){
+                        debugger;
+                        if(cashValue && dollarWeight){
+                            $cashValue.html('RATE: $' + cashValue + ' ' + ' TOTAL: $' + (cashValue *  dollarWeight * cashCount).toFixed(2));
+                            $cashValue.addClass('layout__cash_visible');
+                        }
+                    });
+            }, 1000)
         }).on('touchend mouseup', function(){
             clearTimeout(_timer);
             $cashValue.removeClass('layout__cash_visible');
