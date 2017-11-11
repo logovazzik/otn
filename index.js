@@ -1,15 +1,28 @@
 function RateService(){
     var proxy = 'https://otn.org/assets/resources/proxy.php?url=';
-
-    this._getBTCrate =  function(){
+    this._getBTCrateInternal =  function(){
         return $.ajax({
             crossDomain: true,
             dataType: "json",
             url: proxy + decodeURIComponent('https://iqoption.com/api/candles/history?active_id=816')
         }).then(function(data){
-            return data.result.actives[0].rate;
-        })
+            return (data.result.actives[0].rate);
+        });
     };
+
+    this._getBTCrate =  function(){
+        var self = this;
+        if(this._getBTCrate.def) {
+            return this._getBTCrate.def.promise()
+        }
+        this._getBTCrate.def = $.Deferred();
+
+        this._getBTCrateInternal().then(function(data){
+            self._getBTCrate.def.resolve(data);
+        });
+
+        return this._getBTCrate.def.promise();
+    }
     this.getCRtopiaPrice =  function() {
         return this._getBTCrate().then(function (rate) {
             return $.ajax({
