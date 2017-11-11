@@ -110,7 +110,7 @@ function MainView(){
 
         var _timer;
         $(document.body).on('touchstart', function(){
-            alert(1)
+            $cashValue.html('touchstart');
             clearTimeout(_timer);
             _timer = setTimeout(function(){
                 rateService.getBitCoinCashPrice().then(function(value){
@@ -120,7 +120,7 @@ function MainView(){
                 });
             }, 2000)
         }).on('touchend', function(){
-            alert(2)
+            $cashValue.html('touchend');
             clearTimeout(_timer);
             $cashValue.removeClass('layout__cash_visible');
         });
