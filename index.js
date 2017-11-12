@@ -122,7 +122,7 @@ function MainView(){
                     .then(function(cashValue, dollarWeight){
                         debugger;
                         if(cashValue && dollarWeight){
-                            $cashValue.html('RATE: $' + cashValue + ' ' + ' TOTAL: $' + (cashValue *  dollarWeight * cashCount).toFixed(2));
+                            $cashValue.html('RATE: $' + cashValue + ' ' + ' TOTAL: ' + (cashValue *  dollarWeight * cashCount).toFixed(2) + ' RUB');
                             $cashValue.addClass('layout__cash_visible');
                         }
                     });
