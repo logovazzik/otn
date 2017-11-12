@@ -82,7 +82,7 @@ function RateService(){
     this.getBitCoinCashPrice =  function() {
         return this._getBTCrate().then(function () {
            return $.ajax({
-                    url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824&v="+ Math.random()),
+                    url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824?v="+ Math.random()),
 
                     type: "GET",
                     crossDomain: true
