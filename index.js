@@ -115,14 +115,14 @@ function MainView(){
 
 
         var _timer, history = [
-               {bitcashCount:2.0814, price: 200000, curreny: RUB},
-               {bitcashCount:0.3846, price: 499.9, curreny: USD},
-               {bitcashCount:0.3796, price: 499.93, curreny: USD},
-               {bitcashCount:0.3627, price: 484.93, curreny: USD},
-               {bitcashCount:0.3814, price: 499.94, curreny: USD},
-               {bitcashCount:0.3796, price: 499.93, curreny: USD},
-               {bitcashCount:0.3796, price: 499.93, curreny: USD},
-               {bitcashCount:0.0036, price: 4.93, curreny: USD}
+               {bitcashCount:2.0814, price: 200000, curreny: 'RUB'},
+               {bitcashCount:0.3846, price: 499.9, curreny: 'USD'},
+               {bitcashCount:0.3796, price: 499.93, curreny: 'USD'},
+               {bitcashCount:0.3627, price: 484.93, curreny: 'USD'},
+               {bitcashCount:0.3814, price: 499.94, curreny: 'USD'},
+               {bitcashCount:0.3796, price: 499.93, curreny: 'USD'},
+               {bitcashCount:0.3796, price: 499.93, curreny: 'USD'},
+               {bitcashCount:0.0036, price: 4.93, curreny: 'USD'}
         ];
             
         
