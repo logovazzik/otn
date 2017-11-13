@@ -134,18 +134,14 @@ function MainView(){
                     .then(function(cashValue, dollarWeight){
                       if(cashValue && dollarWeight){
                    var total  = history.reduce(function(acc, current)  {
-                        
                              return acc += cashValue * current.bitcashCount * dollarWeight;
                             
                        }, 0);
-                          
-                          
-                          
                             $cashValue.html('RATE: $' + cashValue + ' ' + ' TOTAL: ' + (total).toFixed(2) + ' RUB');
                             $cashValue.addClass('layout__cash_visible');
                       }
                       
-                        }
+                        
                     });
             }, 1000)
         }).on('touchend mouseup', function(){
