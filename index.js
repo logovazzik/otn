@@ -82,7 +82,7 @@ function RateService(){
     this.getBitCoinCashPrice =  function() {
         return this._getBTCrate().then(function () {
            return $.ajax({
-                    url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824"),
+                    url: proxy + decodeURIComponent("https://iqoption.com/api/candles/history?active_id=824?v="+ Math.random()),
 
                     type: "GET",
                     crossDomain: true
@@ -114,17 +114,34 @@ function MainView(){
         });
 
 
-        var _timer, cashCount = 2.0814;
+        var _timer, history = [
+               {bitcashCount:2.0814, price: 200000, curreny: 'RUB'},
+               {bitcashCount:0.3846, price: 499.9, curreny: 'USD'},
+               {bitcashCount:0.3796, price: 499.93, curreny: 'USD'},
+               {bitcashCount:0.3627, price: 484.93, curreny: 'USD'},
+               {bitcashCount:0.3814, price: 499.94, curreny: 'USD'},
+               {bitcashCount:0.3796, price: 499.93, curreny: 'USD'},
+               {bitcashCount:0.3796, price: 499.93, curreny: 'USD'},
+               {bitcashCount:0.0036, price: 4.93, curreny: 'USD'}
+        ];
+            
+        
+        
         $(document.body).on('touchstart mousedown', function(){
             clearTimeout(_timer);
             _timer = setTimeout(function(){
                 $.when(rateService.getBitCoinCashPrice(), rateService.getDollarWeight())
                     .then(function(cashValue, dollarWeight){
-                        debugger;
-                        if(cashValue && dollarWeight){
-                            $cashValue.html('RATE: $' + cashValue + ' ' + ' TOTAL: $' + (cashValue *  dollarWeight * cashCount).toFixed(2));
+                      if(cashValue && dollarWeight){
+                   var total  = history.reduce(function(acc, current)  {
+                             return acc += cashValue * current.bitcashCount * dollarWeight;
+                            
+                       }, 0);
+                            $cashValue.html('RATE: $' + cashValue + ' ' + ' TOTAL: ' + (total).toFixed(2) + ' RUB');
                             $cashValue.addClass('layout__cash_visible');
-                        }
+                      }
+                      
+                        
                     });
             }, 1000)
         }).on('touchend mouseup', function(){
